@@ -1,15 +1,20 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 export default function App() {
 
-    const [name, setName] = useState('')
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const nameRef = useRef()
+    const usernameRef = useRef()
+    const passwordRef = useRef()
     const [specialization, setSpecialization] = useState('')
     const [experience, setExperience] = useState('')
-    const [description, setDescription] = useState('')
+    const descriptionRef = useRef()
 
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\[\]{}|;:'\\`~]).{8,}$/;
+
+    const name = nameRef.current.value;
+    const username = usernameRef.current.value;
+    const password = passwordRef.current.value;
+    const description = descriptionRef.current.value;
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -19,16 +24,16 @@ export default function App() {
         } else if (!specialization) {
             alert('Devi selezionare una specializzazione')
             return
-        } else if (Number(experience < 0)) {
+        } else if (Number(experience) <= 0) {
             alert('Il numero deve essere maggiore di 0')
             return
-        } else if (username.length < 6 && !/^[a-zA-Z0-9]+$/.test(username)) {
+        } else if (username.length < 6 || !/^[a-zA-Z0-9]+$/.test(username)) {
             alert('L\'username deve avere almeno 6 caratteri')
             return
         } else if (!passwordRegex.test(password)) {
             alert('La password deve avere almeno 8 caratteri, 1 lettera, 1 numero e 1 simbolo');
             return;
-        } else if (description.trim().length < 100 && description.trim().length > 1000) {
+        } else if (description.trim().length < 100 || description.trim().length > 1000) {
             alert('La descrizione deve contenere tra 100 e 1000 caratteri e non deve avere spazi iniziali e finali')
             return
         }
@@ -41,20 +46,17 @@ export default function App() {
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                ref={nameRef}
             />
             <input
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                ref={usernameRef}
             />
             <input
                 type="password"
                 name=""
                 id=""
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                ref={passwordRef}
             />
             <select value={specialization} onChange={(e) => setSpecialization(e.target.value)}>
                 <option value="">Seleziona specializzazione</option>
@@ -69,7 +71,7 @@ export default function App() {
                 value={experience}
                 onChange={(e) => setExperience(e.target.value)}
             />
-            <textarea value={description} onChange={(e) => setDescription(e.target.value)} name="" id=""></textarea>
+            <textarea ref={descriptionRef} name="" id=""></textarea>
 
             <button type='submit'>Invia</button>
         </form>
