@@ -9,16 +9,27 @@ export default function App() {
     const [experience, setExperience] = useState('')
     const [description, setDescription] = useState('')
 
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\[\]{}|;:'\\`~]).{8,}$/;
+
     const handleSubmit = (e) => {
         e.preventDefault()
         if (!name || !username || !password || !experience || !description) {
-            alert('Completa tutti i campi')
+            alert('Compila tutti i campi')
             return
         } else if (!specialization) {
             alert('Devi selezionare una specializzazione')
             return
         } else if (Number(experience < 0)) {
             alert('Il numero deve essere maggiore di 0')
+            return
+        } else if (username.length < 6 && !/^[a-zA-Z0-9]+$/.test(username)) {
+            alert('L\'username deve avere almeno 6 caratteri')
+            return
+        } else if (!passwordRegex.test(password)) {
+            alert('La password deve avere almeno 8 caratteri, 1 lettera, 1 numero e 1 simbolo');
+            return;
+        } else if (description.trim().length < 100 && description.trim().length > 1000) {
+            alert('La descrizione deve contenere tra 100 e 1000 caratteri e non deve avere spazi iniziali e finali')
             return
         }
         console.log({ name, username, password, specialization, experience, description })
