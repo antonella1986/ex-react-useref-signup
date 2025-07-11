@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 
 export default function App() {
-
+    //uso useRef per accedere a input non controllati
     const nameRef = useRef()
     const usernameRef = useRef()
     const passwordRef = useRef()
@@ -11,13 +11,13 @@ export default function App() {
 
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\[\]{}|;:'\\`~]).{8,}$/;
 
-    const name = nameRef.current.value;
-    const username = usernameRef.current.value;
-    const password = passwordRef.current.value;
-    const description = descriptionRef.current.value;
-
+    
     const handleSubmit = (e) => {
         e.preventDefault()
+        const name = nameRef.current.value;
+        const username = usernameRef.current.value;
+        const password = passwordRef.current.value;
+        const description = descriptionRef.current.value;
         if (!name || !username || !password || !experience || !description) {
             alert('Compila tutti i campi')
             return
@@ -43,6 +43,7 @@ export default function App() {
 
 
     return (
+        //uso la proprietà React ref per ottenenre il valore al momento del submit
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
